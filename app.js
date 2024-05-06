@@ -1,7 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
 
-
 const PORT = process.env.PORT || 5000;
 const app = express();
 
@@ -20,6 +19,8 @@ const verifyToken = require("./middleware/auth")
 // Route Imports
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const driverRoutes = require("./routes/driver");
+const rideRoutes = require("./routes/ride");
 
 // base route
 app.get("/", (req, res) => {
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/users", verifyToken, userRoutes);
+app.use("/drivers", driverRoutes);
+app.use("/rides", rideRoutes);
 
 // start the server
 app.listen(PORT, () => {

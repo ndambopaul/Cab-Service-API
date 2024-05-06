@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const Passenger = require("../models/passenger");
 
 const register = async(req, res) => {
     const userData = req.body;
@@ -21,6 +22,12 @@ const register = async(req, res) => {
             password: hashedPassword
         });
         await user.save();
+
+        const passenger = new Passenger({
+            user: user.id,
+            currentLocation: userData.currentLocation
+        });
+        await passenger.save();
 
         if(!user) return res.status(400).send({"error": "Something went wrong!!"})
 
