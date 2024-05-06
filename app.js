@@ -14,8 +14,12 @@ app.use(morgan("dev"));
 const { connect_database } = require("./db/connect");
 connect_database();
 
+// Authentication Middleware
+const verifyToken = require("./middleware/auth")
+
 // Route Imports
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 // base route
 app.get("/", (req, res) => {
@@ -23,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/users", verifyToken, userRoutes);
 
 // start the server
 app.listen(PORT, () => {
